@@ -32,7 +32,7 @@ Gui, Add, Hotkey, % " x100 y295 w100 h20 vSendHotkey", % "F12"
 Gui, Add, Text, % "x205 y275 w100 h15", % "Parts To Send"
 Gui, Add, Edit, % "x205 y295 w100 h20 -Multi vPartsToSend", % "All"
 Gui, Add, Button, % "x337 y265 w70 h25 gShowHelp", % "Help"
-Gui, Add, Link, % "x330 y295" , % "<a href=""http://ahkscript.org"">Made by Ox#0254</a>"
+Gui, Add, Link, % "x330 y295" , % "<a href=""https://github.com/0x464e/discord_taglist_creator_sender"">Made by Ox#0254</a>"
 Gui, Show, % "Center w425 h332", % "Discord Taglist Creator & Sender"
 
 GuiControl, Disable, InputTags
