@@ -70,21 +70,23 @@ ParseTags(inp)
 	, inp := StrReplace(inp, "!")
 	
 	while (fortnite := RegexMatch(inp, "<@&?\d{15,20}>", match, fortnite + mLen))
-		if((!used[match] && _ := !_) && StrLen((outp, mLen := StrLen(match), used[match] := "fortnite", match := (WYSIWYGCompatible ? RegExReplace(match, "@(?=\d)", "@!") : match) (AddLineBreaks ? "`n" : ""))) 
-		+ StrLen(match) - (AddLineBreaks ? 1 : 0) + (InvisiblePadding ? 2*(InvisPadCountAbove+InvisPadCountBelow)-1 : 0) > maxLength)
-			ret.push(InvisiblePadding ? RTrim(GenerateInvisPads(InvisPadCountAbove) outp "`n" GenerateInvisPads(InvisPadCountBelow), "`n") : (AddLineBreaks ? RTrim(outp, "`n") : outp))
+		if((!used[match] && _ := !_) && StrLen((outp, mLen := StrLen(match), used[match] := "fortnite", match := (WYSIWYGCompatible ? RegExReplace(match, "@(?=\d)", "@!") : match) (AddLineBreaks ? "`n" : ""))) + StrLen(match)
+		- (AddLineBreaks ? 1 : 0) + (InvisiblePadding ? StrLen(padsAbove := GenerateInvisPads(InvisPadCountAbove)) + StrLen(padsBelow := GenerateInvisPads(InvisPadCountBelow, false)) + !!InvisPadCountBelow * 1 : 0) > maxLength)
+			ret.push(InvisiblePadding ? GenerateInvisPads(InvisPadCountAbove) outp (InvisPadCountBelow ? "`n" : "") GenerateInvisPads(InvisPadCountBelow, false) : (AddLineBreaks ? RTrim(outp, "`n") : outp))
 			, outp := match, _ := __
 		else if (_)
 			outp .= match, _ := __
 	
-	return (outp ? (ret, ret.Push(InvisiblePadding ? RTrim(GenerateInvisPads(InvisPadCountAbove) outp "`n" GenerateInvisPads(InvisPadCountBelow), "`n") : (AddLineBreaks ? RTrim(outp, "`n") : outp))) : ret)
+	return (outp ? (ret, ret.Push(InvisiblePadding ? GenerateInvisPads(InvisPadCountAbove) outp "`n" GenerateInvisPads(InvisPadCountBelow, false) : (AddLineBreaks ? RTrim(outp, "`n") : outp))) : ret)
 }
 
-GenerateInvisPads(count)
+GenerateInvisPads(count, above := true)
 {
-	Loop, % count
-		pads .= Chr(0x2800) "`n" ; U+2800 Braille Pattern Blank
-	return pads
+	if (!count)
+		return
+	Loop, % count - !above
+		pads .= "`n"
+	return above ? Chr(0x2800) pads : pads Chr(0x2800) ;U+2800 Braille Pattern Blank
 }
 
 FromClipboard()
